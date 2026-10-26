@@ -359,7 +359,7 @@ private func makeUpdaterController() -> UpdaterProviding {
         return DisabledUpdaterController(unavailableReason: "Updates unavailable in this build.")
     }
 
-    // Automatic checks default to on for first launch; automatic installs stay opt-in via Sparkle's own default.
+    // Both choices default to on for first launch; Sparkle preserves the saved automatic-install choice.
     return SparkleUpdaterController(
         savedAutoCheck: (UserDefaults.standard.object(forKey: "autoUpdateEnabled") as? Bool) ?? true)
 }

@@ -65,7 +65,7 @@ final class SparklePreferenceFixture: UpdaterProviding {
             "CFBundleVersion": "1",
             "CFBundleName": "Synthetic updater",
             "SUEnableAutomaticChecks": true,
-            "SUAutomaticallyUpdate": false,
+            "SUAutomaticallyUpdate": true,
         ]
         try PropertyListSerialization.data(fromPropertyList: info, format: .xml, options: 0)
             .write(to: contents.appendingPathComponent("Info.plist"))

@@ -10,7 +10,7 @@ struct AboutPane: View {
     @AppStorage(UpdateChannel.userDefaultsKey)
     private var updateChannelRaw: String = UpdateChannel.defaultChannel.rawValue
     @State private var didLoadUpdaterState = false
-    @AppStorage("SUAutomaticallyUpdate") private var automaticInstallEnabled = false
+    @AppStorage("SUAutomaticallyUpdate") private var automaticInstallEnabled = true
 
     private var buildTimestamp: String? {
         guard let raw = Bundle.main.object(forInfoDictionaryKey: "CodexBuildTimestamp") as? String else { return nil }
