@@ -80,14 +80,12 @@ struct AboutPane: View {
         .scrollContentBackground(.hidden)
         .onAppear {
             guard !self.didLoadUpdaterState else { return }
-            // Align Sparkle's flag with the persisted preference on first load.
-            self.updater.automaticallyChecksForUpdates = self.autoUpdateEnabled
-            self.updater.automaticallyDownloadsUpdates = self.autoUpdateEnabled
+            // Align Sparkle's check flag with the persisted preference on first load.
+            UpdaterPreferenceSync.applyAutomaticChecks(self.autoUpdateEnabled, to: self.updater)
             self.didLoadUpdaterState = true
         }
         .onChange(of: self.autoUpdateEnabled) { _, newValue in
-            self.updater.automaticallyChecksForUpdates = newValue
-            self.updater.automaticallyDownloadsUpdates = newValue
+            UpdaterPreferenceSync.applyAutomaticChecks(newValue, to: self.updater)
         }
     }
 
