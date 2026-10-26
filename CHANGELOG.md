@@ -2,9 +2,10 @@
 
 ## 0.81.1 — Unreleased
 
-### Changed
+### Added
 
-- Updates: separate automatic installs from update checks, preserve existing install choices across relaunches and Settings visits, and default new installations to opt-in (#4777, #4778). Thanks @harveyrandall!
+- Updates: add a separate automatic-install control, preserve saved choices across relaunches and Settings visits, and leave automatic installs off by default for new installations (#4777, #4778). Thanks @harveyrandall!
+- Plugins: allow detail progress bars to display native pace markers, respecting Show pace (#4776). Thanks @KLIEBHAN!
 
 ## 0.81.0 — 2026-10-24
 
