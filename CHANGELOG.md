@@ -2,6 +2,10 @@
 
 ## 0.81.1 — Unreleased
 
+### Changed
+
+- Updates: separate automatic installs from automatic checks, so installing updates is opt-in and an unticked Sparkle install checkbox stays off after relaunch.
+
 ## 0.81.0 — 2026-10-24
 
 ### Highlights

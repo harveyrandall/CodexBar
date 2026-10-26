@@ -10,6 +10,8 @@ struct AboutPane: View {
     @AppStorage(UpdateChannel.userDefaultsKey)
     private var updateChannelRaw: String = UpdateChannel.defaultChannel.rawValue
     @State private var didLoadUpdaterState = false
+    /// Mirrors Sparkle's persisted automatic-install choice; Sparkle, not CodexBar, is the source of truth.
+    @State private var automaticInstallEnabled = false
 
     private var buildTimestamp: String? {
         guard let raw = Bundle.main.object(forInfoDictionaryKey: "CodexBuildTimestamp") as? String else { return nil }
@@ -79,6 +81,8 @@ struct AboutPane: View {
         .toggleStyle(.switch)
         .scrollContentBackground(.hidden)
         .onAppear {
+            // Re-read on every appearance: the choice may have changed from Sparkle's update alert checkbox.
+            self.automaticInstallEnabled = self.updater.automaticallyDownloadsUpdates
             guard !self.didLoadUpdaterState else { return }
             // Align Sparkle's check flag with the persisted preference on first load.
             UpdaterPreferenceSync.applyAutomaticChecks(self.autoUpdateEnabled, to: self.updater)
@@ -86,6 +90,9 @@ struct AboutPane: View {
         }
         .onChange(of: self.autoUpdateEnabled) { _, newValue in
             UpdaterPreferenceSync.applyAutomaticChecks(newValue, to: self.updater)
+        }
+        .onChange(of: self.automaticInstallEnabled) { _, newValue in
+            self.updater.automaticallyDownloadsUpdates = newValue
         }
     }
 
@@ -99,6 +106,14 @@ struct AboutPane: View {
                 Toggle(L("check_updates_auto"), isOn: self.$autoUpdateEnabled)
             }
             if self.updater.isAvailable {
+                // Sparkle only: Homebrew installs are upgraded through `brew`, never silently.
+                Toggle(isOn: self.$automaticInstallEnabled) {
+                    SettingsRowLabel(
+                        L("install_updates_auto"),
+                        subtitle: L("install_updates_auto_subtitle"))
+                }
+                // Installs need a background check to find the update, so the choice is moot while checks are off.
+                .disabled(!self.autoUpdateEnabled)
                 Picker(selection: self.updateChannelBinding) {
                     ForEach(UpdateChannel.allCases) { channel in
                         Text(channel.displayName).tag(channel)
