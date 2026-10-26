@@ -4,7 +4,7 @@
 
 ### Changed
 
-- Updates: separate automatic installs from automatic checks, so installing updates is opt-in and an unticked Sparkle install checkbox stays off after relaunch.
+- Updates: separate automatic installs from update checks, preserve existing install choices across relaunches and Settings visits, and default new installations to opt-in (#4777, #4778). Thanks @harveyrandall!
 
 ## 0.81.0 — 2026-10-24
 

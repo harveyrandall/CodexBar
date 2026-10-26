@@ -359,7 +359,6 @@ private func makeUpdaterController() -> UpdaterProviding {
         return DisabledUpdaterController(unavailableReason: "Updates unavailable in this build.")
     }
 
-    AutomaticUpdateInstallMigration.migrateIfNeeded()
     // Automatic checks default to on for first launch; automatic installs stay opt-in via Sparkle's own default.
     return SparkleUpdaterController(
         savedAutoCheck: (UserDefaults.standard.object(forKey: "autoUpdateEnabled") as? Bool) ?? true)
@@ -583,8 +582,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func handleSessionLimitResetNotification(_ notification: Notification) {
-        guard let event = notification.object as? SessionLimitResetEvent else { return }
-        guard self.settings?.confettiOnSessionLimitResetsEnabled == true else { return }
+        guard let event = notification.object as? SessionLimitResetEvent,
+              self.settings?.confettiOnSessionLimitResetsEnabled == true else { return }
         self.playLimitResetConfetti(
             provider: event.provider,
             accountIdentifier: event.accountIdentifier,
@@ -592,8 +591,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @objc private func handleWeeklyLimitResetNotification(_ notification: Notification) {
-        guard let event = notification.object as? WeeklyLimitResetEvent else { return }
-        guard self.settings?.confettiOnWeeklyLimitResetsEnabled == true else { return }
+        guard let event = notification.object as? WeeklyLimitResetEvent,
+              self.settings?.confettiOnWeeklyLimitResetsEnabled == true else { return }
         self.playLimitResetConfetti(
             provider: event.provider,
             accountIdentifier: event.accountIdentifier,
